@@ -60,8 +60,8 @@ except:
     pass
 
 # SFX (fallback beeps using pygame if you don’t have files)
-eat_sfx = pygame.mixer.Sound(None)
-hit_sfx = pygame.mixer.Sound(None)
+# eat_sfx = pygame.mixer.Sound(None)
+# hit_sfx = pygame.mixer.Sound(None)
 
 # ----------------- Parallax -----------------
 class Parallax:

@@ -102,7 +102,7 @@ class Enemy:
         self.vx=2
         self.l=lbound; self.r=rbound
         self.stomped=False; self.dead_time=0
-        self.hp=1
+        self.hp=10
     def update(self):
         if self.stomped:
             self.dead_time+=1
@@ -443,14 +443,20 @@ def play_level(world, sublevel, abilities, score):
             for pr in player.projectiles[:]:
                 if boss.rect.colliderect(pr[0]) and boss.hp>0:
                     boss.hit(1); player.projectiles.remove(pr)
-            # stomp boss (reduced damage)
-            feet=pygame.Rect(player.rect.x+6,player.rect.bottom-6,player.rect.w-12,8)
-            if boss.hp>0 and feet.colliderect(boss.rect): boss.hit(1); player.vy=JUMP_POWER*0.6
+            # stomp boss (deal 1 damage)
+            feet = pygame.Rect(player.rect.x+6, player.rect.bottom-6, player.rect.w-12, 8)
+            if boss.hp > 0 and feet.colliderect(boss.rect) and player.vy > 0:
+               boss.hit(1)
+               player.vy = JUMP_POWER * 0.6
+
             # boss touch hurts
             if boss.hp>0 and player.rect.colliderect(boss.rect) and player.invul==0:
                 return ("dead", score)
             # boss defeated?
-            if boss.hp<=0: return ("boss_down", score)
+            if boss.hp <= 0:
+                # boss death animation goes here later
+                return ("boss_down", score)
+
 
         # finish level (flag)
         if flag_rect and player.rect.colliderect(flag_rect):
